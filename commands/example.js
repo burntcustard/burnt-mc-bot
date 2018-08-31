@@ -1,13 +1,16 @@
 
-// Just figuring out what each command needs to have
+module.exports = {
 
+    desc: "An example command to test with",
+    aliases: [
+        ["foo"],
+        ["example", "command"],
+        ["!ping"]
+    ],
 
-this.name = "ping";
-this.aliases = [
-    ["foo"],
-    ["example", "command"]
-];
-this.desc = "An example command to test with";
-this.run = () => {
-    message.channel.send("pong!");
+    run: () => {
+        console.log("Trying to send message");
+        return "pong!";
+    }
+
 };
