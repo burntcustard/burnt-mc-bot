@@ -3,40 +3,41 @@ const fs = require('fs');
 const client = new Discord.Client();
 const config = require('./config.json');
 
-//const command = require('./command.js');
-const commands = require('require-all')(__dirname + '/commands');
+var commands = require('require-all')({
+  dirname     :  __dirname + '/commands',
+  filter      :  /(.+)\.js$/,
+  resolve     : function (fn) {
+    return fn();
+  }
+});
 
-for (var command in commands) {
-    console.log("Loaded command: " + command);
+console.log("Loading Commands:");
+for (var commandKey in commands) {
+    let command = commands[commandKey];
+    command.name = commandKey;
+    command.prototype = commands.base;
+    console.log("  " + commandKey);
 }
+
+// Remove base command from the list cos we don't want to use it
+delete(commands.base);
 
 client.on("ready", () => {
     console.log("I am ready!");
 });
 
 client.on("message", (message) => {
-    //if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+
+    // Don't let the bot respond to it's own messages
+    if (message.author.bot) return;
 
     Object.keys(commands).forEach(key => {
         let command = commands[key];
-        let aliasFound = false;
-        command.aliases.forEach(aliasSet => {
-            let wordFound = true;
-            aliasSet.forEach(word => {
-                if (!message.content.includes(word)) {
-                    wordFound = false;
-                } else {
-                    console.log(message.content + " includes " + word);
-                }
-            });
-            if (wordFound) {
-                console.log("All the words in an alias set were found!");
-                aliasFound = true;
-            }
+        command.activatedBy(message).then((value) => {
+           if (value) {
+               command.run(message);
+           }
         });
-        if (aliasFound) {
-            message.channel.send(command.run());
-        }
     });
 
 });
