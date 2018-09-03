@@ -16,10 +16,10 @@ module.exports = function () {
                 }
             });
             if (wordFound) {
-                resolve(true);
+                resolve();
             }
         });
-        resolve(false);
+        reject("Phrase not found in aliases");
     });
 
     return this;

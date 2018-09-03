@@ -33,10 +33,10 @@ client.on("message", (message) => {
 
     Object.keys(commands).forEach(key => {
         let command = commands[key];
-        command.activatedBy(message).then((value) => {
-           if (value) {
-               command.run(message);
-           }
+        command.activatedBy(message).then((activated) => {
+            if (activated) {
+                command.run(message);
+            }
         });
     });
 
