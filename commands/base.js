@@ -15,7 +15,7 @@ module.exports = class Command {
             this.aliases.forEach(phrase => {
                 let wordFound = true;
                 phrase.forEach(word => {
-                    if (!message.content.includes(word)) {
+                    if (!message.content.toLowerCase().includes(word)) {
                         wordFound = false;
                     }
                 });
