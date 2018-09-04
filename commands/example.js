@@ -1,17 +1,20 @@
 
-module.exports = function () {
+const BaseCommand = require('./base');
 
-    this.desc = "An example command to test with";
+module.exports = class Command extends BaseCommand {
 
-    this.aliases = [
-        ["!foo"],
-        ["example", "command"],
-        ["!ping"]
-    ];
+    constructor() {
+        super();
+        this.desc = "An example command to test with";
+        this.aliases = [
+            ["!foo"],
+            ["example", "command"],
+            ["!ping"]
+        ];
+    }
 
-    this.run = (message) => {
+    run(message) {
         message.channel.send("pong!");
-    };
+    }
 
-    return this;
 };

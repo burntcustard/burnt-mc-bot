@@ -1,26 +1,29 @@
 
-module.exports = function () {
+module.exports = class Command {
 
-    this.desc = "Inherit from this(?)";
+    constructor() {
+        this.desc = "Inherit from this command";
+    }
 
-    this.test = () => {
+    test() {
         console.log("This message is from " + this.name);
-    };
+    }
 
-    this.activatedBy = message => new Promise((resolve, reject) => {
-        this.aliases.forEach(phrase => {
-            let wordFound = true;
-            phrase.forEach(word => {
-                if (!message.content.includes(word)) {
-                    wordFound = false;
+    activatedBy(message) {
+        return new Promise((resolve, reject) => {
+            this.aliases.forEach(phrase => {
+                let wordFound = true;
+                phrase.forEach(word => {
+                    if (!message.content.includes(word)) {
+                        wordFound = false;
+                    }
+                });
+                if (wordFound) {
+                    resolve(true);
                 }
             });
-            if (wordFound) {
-                resolve();
-            }
+            resolve(false);
         });
-        reject("Phrase not found in aliases");
-    });
+    }
 
-    return this;
 };

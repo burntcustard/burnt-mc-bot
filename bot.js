@@ -6,8 +6,8 @@ const config = require('./config.json');
 var commands = require('require-all')({
   dirname     :  __dirname + '/commands',
   filter      :  /(.+)\.js$/,
-  resolve     : function (fn) {
-    return fn();
+  resolve     : (Command) => {
+      return new Command();
   }
 });
 
@@ -15,12 +15,28 @@ console.log("Loading Commands:");
 for (var commandKey in commands) {
     let command = commands[commandKey];
     command.name = commandKey;
-    command.prototype = commands.base;
-    console.log("  " + commandKey);
+    if (commandKey !== "base") {
+        //command.prototype = commands.base;
+        //Object.setPrototypeOf(command, commands.base);
+        //command = Object.assign(commands.base.activatedBy, command);
+    }
+    //console.log("  " + commandKey + " with proto of " + JSON.stringify(command.prototype));
 }
 
 // Remove base command from the list cos we don't want to use it
 delete(commands.base);
+
+for (var commandKey in commands) {
+    let command = commands[commandKey];
+    //console.log((command));
+    command.test();
+}
+
+//const Example = require('./commands/example.js');
+//var example = new Example();
+//console.log(example);
+//example.name = "example";
+//example.test();
 
 client.on("ready", () => {
     console.log("I am ready!");
@@ -35,6 +51,7 @@ client.on("message", (message) => {
         let command = commands[key];
         command.activatedBy(message).then((activated) => {
             if (activated) {
+                console.log(key + " command activated");
                 command.run(message);
             }
         });
