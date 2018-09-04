@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const fs = require('fs');
 const client = new Discord.Client();
 const config = require('./config.json');
 
@@ -19,6 +18,7 @@ delete(commands.base);
 for (var commandKey in commands) {
     let command = commands[commandKey];
     command.name = commandKey;
+    command.aliases.push([config.prefix + command.name]);
     console.log(command.name);
 }
 

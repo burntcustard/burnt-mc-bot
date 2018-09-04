@@ -1,5 +1,6 @@
 {
     "token": "YOUR SECRET BOT TOKEN",
     "prefix": "!",
-    "ownerID": "YOUR DISCORD USERID"
+    "ownerID": "YOUR DISCORD USERID",
+    "mcserver": "YOUR MINECRAFT SERVER IP"
 }

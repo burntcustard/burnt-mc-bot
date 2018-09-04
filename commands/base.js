@@ -3,6 +3,7 @@ module.exports = class Command {
 
     constructor() {
         this.desc = "Inherit from this command";
+        this.aliases = [];
     }
 
     test() {
