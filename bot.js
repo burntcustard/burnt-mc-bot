@@ -1,11 +1,11 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
-const config = require('./config.json');
+const config = require("./config.json");
 
 console.log("Loading Commands:");
 
-var commands = require('require-all')({
-  dirname     :  __dirname + '/commands',
+var commands = require("require-all")({
+  dirname     :  __dirname + "/commands",
   filter      :  /(.+)\.js$/,
   resolve     : (Command) => {
       return new Command();
