@@ -3,6 +3,8 @@ const fs = require('fs');
 const client = new Discord.Client();
 const config = require('./config.json');
 
+console.log("Loading Commands:");
+
 var commands = require('require-all')({
   dirname     :  __dirname + '/commands',
   filter      :  /(.+)\.js$/,
@@ -11,32 +13,15 @@ var commands = require('require-all')({
   }
 });
 
-console.log("Loading Commands:");
-for (var commandKey in commands) {
-    let command = commands[commandKey];
-    command.name = commandKey;
-    if (commandKey !== "base") {
-        //command.prototype = commands.base;
-        //Object.setPrototypeOf(command, commands.base);
-        //command = Object.assign(commands.base.activatedBy, command);
-    }
-    //console.log("  " + commandKey + " with proto of " + JSON.stringify(command.prototype));
-}
-
 // Remove base command from the list cos we don't want to use it
 delete(commands.base);
 
 for (var commandKey in commands) {
     let command = commands[commandKey];
-    //console.log((command));
-    command.test();
+    command.name = commandKey;
+    console.log(command.name);
 }
 
-//const Example = require('./commands/example.js');
-//var example = new Example();
-//console.log(example);
-//example.name = "example";
-//example.test();
 
 client.on("ready", () => {
     console.log("I am ready!");

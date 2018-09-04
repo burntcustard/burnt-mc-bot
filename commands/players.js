@@ -14,12 +14,24 @@ module.exports = class Command extends BaseCommand {
 
     run(message) {
         return new Promise((resolve, reject) => {
-            console.log("Running players command");
             fetch("https://api.mcsrvstat.us/1/mc.burnt.io")
             .then(status => status.json())
-            .then(json => JSON.stringify(json.players.list))
-            .then(players => message.channel.send(players))
-            //.then(json => message.channel.send(json))
+            .then((json) => {
+                let playerStr = "test";
+                let players = json.players;
+                if (json.offline) {
+                    playerStr = "Server is offline!";
+                } else
+                if (players && !players.list) {
+                    playerStr = "No one is playing :(";
+                } else
+                if (players && players.list.length > 0) {
+                    playerStr = "Currently online: ";
+                    playerStr += players.list.join(", ");
+                }
+                message.channel.send(playerStr);
+                resolve(playerStr);
+            })
             .catch((error) => {
                 console.log("Error getting server info");
             });
