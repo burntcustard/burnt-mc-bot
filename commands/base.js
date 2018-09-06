@@ -27,7 +27,7 @@ module.exports = class Command {
         });
     }
 
-    isAdminIfRequired(message, config) {
+    isAdminIfRequired(client, message, config) {
         if (this.admin) {
             if (message.author.id === config.ownerID) {
                 return true;
@@ -35,7 +35,7 @@ module.exports = class Command {
                 let say = message.channel.send,
                     owner = config.ownerID.split("#")[0],
                     command = config.prefix + this.name;
-                say(`Only ${owner} can run the ${command} command!`);
+                message.channel.send(`Only ${owner} can run the ${command} command!`);
                 return;
             }
         } else {
