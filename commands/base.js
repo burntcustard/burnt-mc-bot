@@ -27,4 +27,19 @@ module.exports = class Command {
         });
     }
 
+    isAdminIfRequired(message, config) {
+        if (this.admin) {
+            if (message.author.id === config.ownerID) {
+                return true;
+            } else {
+                let say = message.channel.send,
+                    owner = config.ownerID.split("#")[0],
+                    command = config.prefix + this.name;
+                say(`Only ${owner} can run the ${command} command!`);
+                return;
+            }
+        } else {
+            return true;
+        }
+    }
 };

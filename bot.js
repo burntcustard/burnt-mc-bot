@@ -24,7 +24,6 @@ for (var commandKey in commands) {
     console.log(command.name);
 }
 
-
 client.on("ready", () => {
     console.log("I am ready!");
 });
@@ -37,9 +36,11 @@ client.on("message", (message) => {
     Object.keys(commands).forEach(key => {
         let command = commands[key];
         command.activatedBy(message).then((activated) => {
-            if (activated) {
-                console.log(key + " command activated");
-                command.run(message);
+            if (activated || message.content === config.prefix + command.name) {
+                if (command.isAdminIfRequired(message, config.ownerID)) {
+                    console.log(key + " command activated");
+                    command.run(message, config);
+                }
             }
         });
     });
