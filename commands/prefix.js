@@ -7,7 +7,7 @@ module.exports = class Command extends BaseCommand {
 
     constructor() {
         super();
-        this.admin = true;
+        this.roles = ["Admin"];
         this.desc = "Lets you change the prefix used to run commands";
         this.aliases = [
             ["change the prefix to"]

@@ -10,8 +10,11 @@ module.exports = class Command {
         console.log("This message is from " + this.name);
     }
 
-    activatedBy(message) {
+    activatedBy(message, config) {
         return new Promise((resolve, reject) => {
+            if (message.content === config.prefix + this.name) {
+                resolve(true);
+            }
             this.aliases.forEach(phrase => {
                 let wordFound = true;
                 phrase.forEach(word => {
@@ -28,14 +31,15 @@ module.exports = class Command {
     }
 
     isAdminIfRequired(client, message, config) {
-        if (this.admin) {
-            if (message.author.id === config.ownerID) {
+        if (this.roles) {
+            // Check if the message sender has one of the required roles
+            if (message.member.roles.some(r => this.roles.includes(r.name))) {
                 return true;
             } else {
-                let say = message.channel.send,
-                    owner = config.ownerID.split("#")[0],
-                    command = config.prefix + this.name;
-                message.channel.send(`Only ${owner} can run the ${command} command!`);
+                let roles = this.roles.join('s, ') + 's',
+                    command = config.prefix + this.name,
+                    rule = `Only ${roles} can run the ${command} command!`;
+                message.channel.send(rule);
                 return;
             }
         } else {

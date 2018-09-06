@@ -35,17 +35,11 @@ client.on("message", (message) => {
 
     Object.keys(commands).forEach(key => {
         let command = commands[key];
-        command.activatedBy(message).then((activated) => {
-            if (activated || message.content === config.prefix + command.name) {
+        command.activatedBy(message, config).then((activated) => {
+            if (activated) {
                 if (command.isAdminIfRequired(client, message, config)) {
                     console.log(key + " command activated");
                     command.run(message, config);
-                } else {
-                    console.log("Needed to be admin but apparently isn't...");
-                    console.log("OwnerID: " + config.ownerID);
-                    console.log("Messager user name: " + message.author.username);
-                    console.log("Messager user tag : " + message.author.tag);
-                    console.log("Messager user ID  : " + message.author.id);
                 }
             }
         });
