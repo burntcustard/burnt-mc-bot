@@ -37,7 +37,7 @@ client.on("message", (message) => {
         let command = commands[key];
         command.activatedBy(message, config).then((activated) => {
             if (activated) {
-                if (command.isAdminIfRequired(client, message, config)) {
+                if (command.isRoleIfRequired(client, message, config)) {
                     console.log(key + " command activated");
                     command.run(message, config);
                 }

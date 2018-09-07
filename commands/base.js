@@ -30,7 +30,7 @@ module.exports = class Command {
         });
     }
 
-    isAdminIfRequired(client, message, config) {
+    isRoleIfRequired(client, message, config) {
         if (this.roles) {
             // Check if the message sender has one of the required roles
             if (message.member.roles.some(r => this.roles.includes(r.name))) {

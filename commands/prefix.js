@@ -1,6 +1,5 @@
 
 const BaseCommand = require("./base");
-const config = require("./../config.json");
 const fs = require("fs");
 
 module.exports = class Command extends BaseCommand {
@@ -14,13 +13,22 @@ module.exports = class Command extends BaseCommand {
         ];
     }
 
-    run(message) {
+    run(message, config) {
+
+        let cmd = config.prefix + this.name;
+
+        if (message.content.replace(/\s/g, '') === cmd) {
+            message.channel.send(`Specify a new prefix after ${cmd}`);
+            return true;
+        }
+
         config.prefix = message.content.substr(-1);
-        fs.writeFile(
-            "./../config.json",
-            JSON.stringify(config), (err) => console.err
-        );
-        message.channel.send(`Command prefix set to: \`${config.prefix}\``);
+        let jsonStr = JSON.stringify(config);
+        let options = { flag: 'w' };
+        fs.writeFile("./../config.json", jsonStr, options, (err) => {
+            if (err) throw err;
+            message.channel.send(`Command prefix set to: \`${config.prefix}\``);
+        });
     }
 
 };
