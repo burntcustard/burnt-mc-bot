@@ -23,9 +23,8 @@ module.exports = class Command extends BaseCommand {
         }
 
         config.prefix = message.content.substr(-1);
-        let jsonStr = JSON.stringify(config);
-        let options = { flag: 'w' };
-        fs.writeFile("./../config.json", jsonStr, options, (err) => {
+        let jsonStr = JSON.stringify(config, null, 4); // 4 space indentation
+        fs.writeFile("./config.json", jsonStr, (err) => {
             if (err) throw err;
             message.channel.send(`Command prefix set to: \`${config.prefix}\``);
         });
