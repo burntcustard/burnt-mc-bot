@@ -18,7 +18,8 @@ module.exports = class Command extends BaseCommand {
         let cmd = config.prefix + this.name;
 
         if (message.content.replace(/\s/g, '') === cmd) {
-            message.channel.send(`Specify a new prefix after ${cmd}`);
+            message.channel.send(`The prefix is currently set to ${config.prefix}`);
+            message.channel.send(`Write a new prefix after ${cmd} to change it`);
             return true;
         }
 
