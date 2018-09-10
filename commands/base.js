@@ -2,6 +2,8 @@
 module.exports = class Command {
 
     constructor() {
+        this.name = ""; // Set in bot.js
+        this.config = ""; // Set in bot.js
         this.desc = "Inherit from this command";
         this.aliases = [];
     }

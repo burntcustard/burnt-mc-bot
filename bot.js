@@ -20,6 +20,7 @@ delete(commands.base);
 for (var commandKey in commands) {
     let command = commands[commandKey];
     command.name = commandKey;
+    command.config = config;
     command.aliases.push([config.prefix + command.name]);
     console.log(command.name);
 }
