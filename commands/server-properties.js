@@ -7,6 +7,7 @@ module.exports = class Command extends BaseCommand {
     constructor() {
         super();
         this.desc = "Viewing and modifying values in server.properties";
+        this.help = "After \\`${this.config.prefix + this.name}\\` specify a server property to display, or \"all\" to show all.";
     }
 
     /**
@@ -20,29 +21,30 @@ module.exports = class Command extends BaseCommand {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(props.split(/\r?\n/).map(pair => pair.split("=")));
+                    props = props.trim(); // Remove extra whitespace/newlines
+                    props = props.split(/\r?\n/); // Split into array, and...
+                    props = props.map(pair => pair.split("=")); // Key/values
+                    resolve(props);
                 }
             });
         });
     }
 
-    // What happens when the command is activated
     run(message, config) {
 
-        // Args to the command are everything except the command itself
-        let args = message.content.replace(config.prefix + this.name, '');
+        let args = this.getArgs(message);
 
-        // Split args into array at comma/space, & remove extra whitespace
-        args = args.split(/[,\s]\s/).map(arg => arg.trim());
-
-        console.log("!server-properties called with args: " + args);
+        if (!args || args[0] === "help") {
+            message.channel.send(eval(`\`${this.help}\``));
+            return;
+        }
 
         this.getProperties().then(propvals => {
             propvals.forEach(propval => {
                 let prop = propval[0];
                 let value = propval[1];
                 if (prop === args[0] || args[0] === "all") {
-                    message.channel.send(`${prop} = \`${value}\``);
+                    message.channel.send(`**${prop}**=\`${value}\``);
                 }
             });
         });

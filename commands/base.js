@@ -4,8 +4,9 @@ module.exports = class Command {
     constructor() {
         this.name = ""; // Set in bot.js
         this.config = ""; // Set in bot.js
-        this.desc = "Inherit from this command";
-        this.aliases = [];
+        this.desc = "No description for this command";
+        this.help = "No help documented for this command";
+        this.aliases = []; // No aliases (yet) so can only be called with !name
     }
 
     test() {
@@ -48,4 +49,16 @@ module.exports = class Command {
             return true;
         }
     }
+
+    getArgs(message) {
+        // Args to the command are everything except the command itself
+        let args = message.content.replace(this.config.prefix + this.name, '');
+        // Return args split into array at comma/space, & w/ no whitespace
+        return args.split(/[,\s]\s/).map(arg => arg.trim());
+    }
+
+    showHelp(message) {
+        message.channel.send(this.help);
+    }
+
 };
