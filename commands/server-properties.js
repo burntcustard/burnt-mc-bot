@@ -1,6 +1,6 @@
 
 const BaseCommand = require('./base');
-const fs = require("fs");
+const serverProps = require('./../server-props');
 
 module.exports = class Command extends BaseCommand {
 
@@ -14,32 +14,32 @@ module.exports = class Command extends BaseCommand {
      * Returns an array of property-value arrays. E.g.
      * [[seed,1234567890], [difficulty,3]]
      */
-    getProperties() {
-        return new Promise((resolve, reject) => {
-            let path = this.config.mcpath + "server.properties";
-            fs.readFile(path, "utf8", (err, props) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    props = props.trim(); // Remove extra whitespace/newlines
-                    props = props.split(/\r?\n/); // Split into array, and...
-                    props = props.map(pair => pair.split("=")); // Key/values
-                    resolve(props);
-                }
-            });
-        });
-    }
+//    getProperties() {
+//        return new Promise((resolve, reject) => {
+//            let path = this.config.mcpath + "server.properties";
+//            fs.readFile(path, "utf8", (err, props) => {
+//                if (err) {
+//                    reject(err);
+//                } else {
+//                    props = props.trim(); // Remove extra whitespace/newlines
+//                    props = props.split(/\r?\n/); // Split into array, and...
+//                    props = props.map(pair => pair.split("=")); // Key/values
+//                    resolve(props);
+//                }
+//            });
+//        });
+//    }
 
     run(message, config) {
 
         let args = this.getArgs(message);
 
         if (!args || args[0] === "help") {
-            message.channel.send(eval(`\`${this.help}\``));
+            this.showHelp(message);
             return;
         }
 
-        this.getProperties().then(propvals => {
+        serverProps.get().then(propvals => {
             propvals.forEach(propval => {
                 let prop = propval[0];
                 let value = propval[1];

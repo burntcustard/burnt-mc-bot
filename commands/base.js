@@ -58,7 +58,11 @@ module.exports = class Command {
     }
 
     showHelp(message) {
-        message.channel.send(this.help);
+        message.channel.send(eval(`\`${this.help}\``));
+    }
+
+    showDesc(message) {
+        message.channel.send(eval(`\`${this.desc}\``));
     }
 
 };
