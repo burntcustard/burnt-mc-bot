@@ -39,15 +39,28 @@ module.exports = class Command extends BaseCommand {
             return;
         }
 
-        serverProps.get().then(propvals => {
-            propvals.forEach(propval => {
-                let prop = propval[0];
-                let value = propval[1];
-                if (prop === args[0] || args[0] === "all") {
-                    message.channel.send(`**${prop}**=\`${value}\``);
-                }
-            });
-        });
+        console.log(args[0]);
+
+        let props = serverProps.get(args[0]);
+
+        if (props === null) {
+            message.channel.send("That property doesn't exist?");
+            return;
+        }
+
+        for (let prop in props) {
+            message.channel.send(`**${prop}**=\`${props[prop]}\``);
+        }
+
+//        serverProps.get().then(propvals => {
+//            propvals.forEach(propval => {
+//                let prop = propval[0];
+//                let value = propval[1];
+//                if (prop === args[0] || args[0] === "all") {
+//                    message.channel.send(`**${prop}**=\`${value}\``);
+//                }
+//            });
+//        });
 
     }
 
