@@ -7,7 +7,8 @@ module.exports = class Command extends BaseCommand {
     constructor() {
         super();
         this.desc = "Viewing and modifying values in server.properties";
-        this.help = "After \\`${this.config.prefix + this.name}\\` specify a server property to display, or \"all\" to show all.";
+        this.help = "After \\`${this.config.prefix + this.name}\\` specify " +
+                    "a server property to display, or \"all\" to show all.";
     }
 
     run(message, config) {
@@ -21,7 +22,7 @@ module.exports = class Command extends BaseCommand {
 
         serverProps.get(args[0]).then(props => {
             if (props === null) {
-                message.channel.send("That property doesn't exist?");
+                message.channel.send("That server property doesn't exist!");
                 return;
             }
             for (let prop in props) {
