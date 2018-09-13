@@ -6,7 +6,7 @@ module.exports = class Command extends BaseCommand {
 
     constructor() {
         super();
-        this.desc = "Viewing and modifying values in server.properties";
+        this.desc = "View Minecraft server.properties";
         this.help = "After \\`${this.config.prefix + this.name}\\` specify " +
                     "a server property to display, or \"all\" to show all.";
     }
