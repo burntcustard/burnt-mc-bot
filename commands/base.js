@@ -53,6 +53,8 @@ module.exports = class Command {
     getArgs(message) {
         // Args to the command are everything except the command itself
         let args = message.content.replace(this.config.prefix + this.name, '');
+        // If there are no args then we don't want to do anything else
+        if (!args) { return null; }
         // Return args split into array at comma/space, & w/ no whitespace
         return args.split(/[,\s]\s/).map(arg => arg.trim());
     }
