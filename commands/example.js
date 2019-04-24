@@ -14,8 +14,15 @@ module.exports = class Command extends BaseCommand {
         // A help string for this command that gets eval'd before sending
         this.help = "No help for \\`${this.config.prefix + this.name}\\` :(`";
 
-        // Sets of keywords that must all appear in a message to active this
+        // Alternative names for the command, called with the prefix.
         this.aliases = [
+            "sample",
+            "specimen"
+        ];
+
+        // Sets of keywords that must all appear in a message to active the
+        // command, without the prefix being needed.
+        this.phrases = [
             ["the", "example", "command"],
             ["alternative", "key", "words"]
         ];

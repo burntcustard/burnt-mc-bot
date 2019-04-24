@@ -6,7 +6,8 @@ module.exports = class Command {
         this.config = ""; // Set in bot.js
         this.desc = "No description for this command";
         this.help = "No help documented for this command";
-        this.aliases = []; // No aliases (yet) so can only be called with !name
+        this.aliases = [];
+        this.phrases = [];
     }
 
     test() {
@@ -15,10 +16,21 @@ module.exports = class Command {
 
     activatedBy(message, config) {
         return new Promise((resolve, reject) => {
+
+            // Check if the messae includes !commandName
             if (message.content === config.prefix + this.name) {
                 resolve(true);
             }
-            this.aliases.forEach(phrase => {
+
+            // Check if the message includes and of the !aliases
+            this.aliases.forEach(alias => {
+              if (message.content === config.prefix + alias) {
+                resolve(true);
+              }
+            });
+
+            // Check if the message includes every keyword in a phrase
+            this.phrases.forEach(phrase => {
                 let wordFound = true;
                 phrase.forEach(word => {
                     if (!message.content.toLowerCase().includes(word)) {
@@ -29,6 +41,8 @@ module.exports = class Command {
                     resolve(true);
                 }
             });
+
+            // No command detected in the message
             resolve(false);
         });
     }
