@@ -2,5 +2,6 @@
     "token": "YOUR SECRET BOT TOKEN",
     "prefix": "!",
     "ownerID": "YOUR DISCORD USERID",
+    "mcpath": "./../PATH/TO/FOLDER/W/SERVER.PROPERTIES",
     "mcserver": "YOUR MINECRAFT SERVER IP"
 }
