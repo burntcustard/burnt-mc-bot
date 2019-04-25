@@ -22,7 +22,7 @@ module.exports = class Command {
                 resolve(true);
             }
 
-            // Check if the message includes and of the !aliases
+            // Check if the message includes any of the !aliases
             this.aliases.forEach(alias => {
               if (message.content === config.prefix + alias) {
                 resolve(true);
